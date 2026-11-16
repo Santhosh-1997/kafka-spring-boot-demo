@@ -22,6 +22,10 @@ docker compose up -d
 mvn spring-boot:run
 ```
 
+Open [Kafka UI](http://localhost:8081) to inspect the local Kafka cluster. It shows topics, partitions, messages, consumer groups, and consumer lag.
+
+The Spring Boot application health endpoint is available at [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health). It reports whether the application can reach Kafka and includes the application’s health details.
+
 In another terminal:
 
 ```bash
@@ -31,6 +35,13 @@ curl -X POST http://localhost:8080/orders \
 ```
 
 Watch the Spring Boot terminal for the `Consumed order` log entry.
+
+## What each status means
+
+- **Producer/application:** check `/actuator/health`; the REST response also confirms that the producer accepted the order for sending.
+- **Topic:** in Kafka UI, open `Topics → orders` to view partitions, offsets, and messages.
+- **Consumer:** in Kafka UI, open `Consumer Groups → kafka-learning-group` to view members, offsets, and lag.
+- **End-to-end flow:** publish an order, then watch the topic message and the consumer lag return to zero.
 
 ## Suggested experiments
 
